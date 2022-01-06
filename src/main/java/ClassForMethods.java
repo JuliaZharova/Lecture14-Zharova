@@ -57,8 +57,8 @@ public class ClassForMethods {
             category.click();
             try {
                 new WebDriverWait(driver, Duration.ofSeconds(30))
-                        .until(ExpectedConditions.elementToBeClickable(By.xpath("//div[1]/div/rz-scrollbar/div/div[1]/div/div/rz-filter-checkbox/ul[1]/li[1]/a/label")));
-                WebElement sellerRozetka = driver.findElement(By.xpath("//div[1]/div/rz-scrollbar/div/div[1]/div/div/rz-filter-checkbox/ul[1]/li[1]/a/label"));
+                        . until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@data-id=\"Rozetka\"]")));
+                WebElement sellerRozetka = driver.findElement(By.xpath("//a[@data-id=\"Rozetka\"]"));
                 sellerRozetka.click();
             } catch (StaleElementReferenceException elementReferenceException) {
                 System.out.println("An irrelevant link to an element causes an exception.");
@@ -68,17 +68,20 @@ public class ClassForMethods {
             System.out.println(searchResult.getText());
             String textSearchResult = searchResult.getText();
             searchResult.click();
-
             new WebDriverWait(driver, Duration.ofSeconds(30))
                     .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1")));
             WebElement selectedItem = driver.findElement(By.xpath("//h1"));
             System.out.println("Selected item is enabled " + selectedItem.isEnabled());
             String textSelectedItem = selectedItem.getText();
 
-            if (textSelectedItem.equals(textSearchResult))
+            WebElement rozetkaSeller = driver.findElement(By.xpath("//*[@id=\"#scrollArea\"]//rz-marketplace-link/strong"));
+            System.out.println("Seller is " + rozetkaSeller.getText());
+            String textRozetkaSeller = rozetkaSeller.getText();
+
+            if (textSelectedItem.equals(textSearchResult) || textRozetkaSeller.equals("Rozetka"))
                 System.out.println("Test 2 passed successfully :)");
         } finally {
-            driver.quit();
+         driver.quit();
         }
 
     }
